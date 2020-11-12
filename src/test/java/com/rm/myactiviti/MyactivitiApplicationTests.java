@@ -68,7 +68,7 @@ public class MyactivitiApplicationTests {
      */
     @Test
     public void taskQuery() {
-        //分配到任务的人
+        //待办任务的人
         String assignee = "请假人";
         ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
