@@ -16,8 +16,10 @@
 
 package com.rm.myactiviti.config;
 
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -35,25 +37,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * SpringSecurity的配置类
- */
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+public class MyactivitiApplicationConfiguration extends WebSecurityConfigurerAdapter {
 
-    private Logger logger = LoggerFactory.getLogger(SpringSecurityConfig.class);
+    private Logger logger =
+            LoggerFactory.getLogger(MyactivitiApplicationConfiguration.class);
 
     @Override
+    @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(myUserDetailsService());
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-
-        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
-
+    public UserDetailsService myUserDetailsService() {
+        InMemoryUserDetailsManager inMemoryUserDetailsManager =
+                new InMemoryUserDetailsManager();
         String[][] usersGroupsAndRoles = {
                 {"salaboy", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
                 {"ryandawsonuk", "password", "ROLE_ACTIVITI_USER", "GROUP_activitiTeam"},
@@ -61,26 +61,26 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 {"other", "password", "ROLE_ACTIVITI_USER", "GROUP_otherTeam"},
                 {"admin", "password", "ROLE_ACTIVITI_ADMIN"},
         };
-
         for (String[] user : usersGroupsAndRoles) {
             List<String> authoritiesStrings = Arrays.asList(Arrays.copyOfRange(user, 2, user.length));
             logger.info("> Registering new user: " + user[0] + " with the following Authorities[" + authoritiesStrings + "]");
             inMemoryUserDetailsManager.createUser(new User(user[0], passwordEncoder().encode(user[1]),
                     authoritiesStrings.stream().map(s -> new SimpleGrantedAuthority(s)).collect(Collectors.toList())));
         }
-
         return inMemoryUserDetailsManager;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .authorizeRequests()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic();
+
+
     }
 
     @Bean

@@ -1,9 +1,6 @@
 package com.rm.myactiviti;
 
-import com.rm.myactiviti.service.UserService;
-import org.activiti.api.process.model.ProcessDefinition;
 import org.activiti.api.process.runtime.ProcessRuntime;
-import org.activiti.api.runtime.shared.query.Page;
 import org.activiti.api.task.runtime.TaskRuntime;
 import org.activiti.engine.*;
 import org.activiti.engine.repository.Deployment;
@@ -11,9 +8,7 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 //@SpringBootTest
@@ -130,17 +125,4 @@ public class MyactivitiApplicationTests {
     @Autowired
     private TaskRuntime taskRuntime;
 
-    @Autowired
-    private UserService userService;
-
-    /**
-     * 查看流程定义
-     */
-    @Test
-    public void testQueryProcessDefinition(){
-        userService.logInAs("rm");
-
-
-
-    }
 }

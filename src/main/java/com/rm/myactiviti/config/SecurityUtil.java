@@ -1,5 +1,7 @@
-package com.rm.myactiviti.service;
+package com.rm.myactiviti.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
@@ -12,20 +14,25 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+/**
+ * SpringSecurity的配置类
+ */
 @Component
-public class UserService {
+public class SecurityUtil  {
 
-    @Qualifier("userDetailsService")
+    private Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
+
+    @Qualifier("myUserDetailsService")
     @Autowired
     private UserDetailsService userDetailsService;
 
-    public void logInAs(String username) {
-
+    public void logInAs(String username){
         UserDetails user = userDetailsService.loadUserByUsername(username);
-        if (user == null) {
-            throw new IllegalStateException("User " + username + " doesn't exist, please provide a valid user");
+        if(user == null){
+            throw new IllegalStateException("User "+username+" doesn't exist," +
+                    " please provide a valid user");
         }
-
+        logger.info("> logged in as: "+username);
         SecurityContextHolder.setContext(new SecurityContextImpl(new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -64,4 +71,5 @@ public class UserService {
         }));
         org.activiti.engine.impl.identity.Authentication.setAuthenticatedUserId(username);
     }
+
 }
