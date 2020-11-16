@@ -14,21 +14,25 @@ import java.util.List;
 //@SpringBootTest
 public class MyactivitiApplicationTests {
 
+    //Activiti6
+
+    /**
+     * 初始化数据库
+     */
     @Test
     public void init() {
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml.bak");
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
         System.out.println(processEngine);
     }
 
-    //Activiti6
     /**
      * 部署请假流程
      */
     @Test
     public void deployLeave() {
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml.bak");
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
         //获取RepositoryService
@@ -47,7 +51,7 @@ public class MyactivitiApplicationTests {
      */
     @Test
     public void startProcessLeave() {
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml.bak");
 
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
         //获取RuntimeService
@@ -70,7 +74,7 @@ public class MyactivitiApplicationTests {
     public void taskQuery() {
         //待办任务的人
         String assignee = "请假人";
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml.bak");
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
         //获取taskservice
         TaskService leaveTaskService = processEngine.getTaskService();
@@ -95,7 +99,7 @@ public class MyactivitiApplicationTests {
      */
     @Test
     public  void leaveTaskComplete(){
-        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml");
+        ProcessEngineConfiguration processEngineConfiguration = ProcessEngineConfiguration.createProcessEngineConfigurationFromResource("activiti.cfg.xml.bak");
         ProcessEngine processEngine = processEngineConfiguration.buildProcessEngine();
 
         //待办人

@@ -26,13 +26,13 @@ public class SecurityUtil  {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    public void logInAs(String username){
+    public void logInAs(String username) {
+
         UserDetails user = userDetailsService.loadUserByUsername(username);
-        if(user == null){
-            throw new IllegalStateException("User "+username+" doesn't exist," +
-                    " please provide a valid user");
+        if (user == null) {
+            throw new IllegalStateException("User " + username + " doesn't exist, please provide a valid user");
         }
-        logger.info("> logged in as: "+username);
+        logger.info("> Logged in as: " + username);
         SecurityContextHolder.setContext(new SecurityContextImpl(new Authentication() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
